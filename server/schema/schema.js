@@ -14,9 +14,9 @@ const {
 
 // dummy data
 var books = [
-    { name: 'Name of the Wind', genre: 'Fantasy', id: '1' },
-    { name: 'The Final Empire', genre: 'Fantasy', id: '2' },
-    { name: 'The Long Earth', genre: 'Sci-Fi', id: '3' }
+    { name: 'Name of the Wind', genre: 'Fantasy', id: '1', authorid: '1' },
+    { name: 'The Final Empire', genre: 'Fantasy', id: '2', authorid: '2' },
+    { name: 'The Long Earth', genre: 'Sci-Fi', id: '3', authorid: '3' }
 ];
 
 var authors = [
@@ -31,10 +31,20 @@ const BookType = new GraphQLObjectType({
     fields: () => ({
         id: { type: GraphQLID },
         name: { type: GraphQLString },
-        genre: { type: GraphQLString }
+        genre: { type: GraphQLString },
+        author: { 
+            type: AuthorType,
+            // resolve function is responsible for going out and grabbing data
+            resolve(parent, args) {
+                console.log(parent);
+                //we are looking through the authors array for the author that is equal to the parent id for the book that has the corresponding author id
+                return _.find(authors, { id: parent.authorid })
+            }
+        }
     })
 });
 
+//graphql schema for authors
 const AuthorType = new GraphQLObjectType({
     name: 'Author',
     fields: () => ({
@@ -67,7 +77,7 @@ const RootQuery = new GraphQLObjectType({
         author: {
             type: AuthorType,
             args: { id: { type: GraphQLID } },
-            resolve (partent, args) {
+            resolve (parent, args) {
                 return _.find(authors, { id: args.id});
             }
         }
