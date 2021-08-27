@@ -4,12 +4,13 @@ const graphql = require('graphql');
 const _ = require('lodash');
 
 // here we are destructering schema typs from graphql itself
-const { 
-    GraphQLObjectType, 
-    GraphQLString, 
+const {
+    GraphQLObjectType,
+    GraphQLString,
     GraphQLSchema,
-    GraphQLID
- } = graphql;
+    GraphQLID,
+    GraphQLInt
+} = graphql;
 
 // dummy data
 var books = [
@@ -18,6 +19,12 @@ var books = [
     { name: 'The Long Earth', genre: 'Sci-Fi', id: '3' }
 ];
 
+var authors = [
+    { name: 'Patrick Rothfuss', age: 44, id: "1" },
+    { name: 'Brandon Sanderson', age: 42, id: "2" },
+    { name: 'Terry Pratchett', age: 66, id: "3" },
+]
+
 //this is our graphql schema for books
 const BookType = new GraphQLObjectType({
     name: 'Book',
@@ -25,6 +32,15 @@ const BookType = new GraphQLObjectType({
         id: { type: GraphQLID },
         name: { type: GraphQLString },
         genre: { type: GraphQLString }
+    })
+});
+
+const AuthorType = new GraphQLObjectType({
+    name: 'Author',
+    fields: () => ({
+        id: { type: GraphQLID },
+        name: { type: GraphQLString },
+        age: { type: GraphQLInt }
     })
 });
 
@@ -42,9 +58,17 @@ const RootQuery = new GraphQLObjectType({
             //parent comes into play when we look at relationships between data
             resolve(parent, args) {
                 // code to get data from db / other source
-
+                // shows us the type of id (string, etc.) that is being requested
+                console.log(typeof (args.id))
                 // we use lodash to look through the books array and return or find any book with an id equal to an id equal to the args that the user sends along
                 return _.find(books, { id: args.id });
+            }
+        },
+        author: {
+            type: AuthorType,
+            args: { id: { type: GraphQLID } },
+            resolve (partent, args) {
+                return _.find(authors, { id: args.id});
             }
         }
     }
