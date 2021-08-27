@@ -4,7 +4,12 @@ const graphql = require('graphql');
 const _ = require('lodash');
 
 // here we are destructering schema typs from graphql itself
-const { GraphQLObjectType, GraphQLString, GraphQLSchema } = graphql;
+const { 
+    GraphQLObjectType, 
+    GraphQLString, 
+    GraphQLSchema,
+    GraphQLID
+ } = graphql;
 
 // dummy data
 var books = [
@@ -17,7 +22,7 @@ var books = [
 const BookType = new GraphQLObjectType({
     name: 'Book',
     fields: () => ({
-        id: { type: GraphQLString },
+        id: { type: GraphQLID },
         name: { type: GraphQLString },
         genre: { type: GraphQLString }
     })
@@ -33,7 +38,7 @@ const RootQuery = new GraphQLObjectType({
         // args param that will ocntain an id feild the user sends along with the query
         book: {
             type: BookType,
-            args: { id: { type: GraphQLString } },
+            args: { id: { type: GraphQLID } },
             //parent comes into play when we look at relationships between data
             resolve(parent, args) {
                 // code to get data from db / other source

@@ -10,7 +10,9 @@ const app = express();
 
 //this is a middleware function
 app.use('/graphql', graphqlHTTP({
-    schema: schema
+    schema,
+    //this allows us to use graphiql to test out graphql
+    graphiql: true
 
 }));
 
