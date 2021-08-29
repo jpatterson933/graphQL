@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import { flowRight as compose } from 'lodash';
-import { getAuthorsQuery, addBookMutation } from '../queries/queries';
+import { getAuthorsQuery, addBookMutation, getBooksQuery } from '../queries/queries';
 
 class AddBook extends Component {
     constructor(props) {
@@ -22,14 +22,15 @@ class AddBook extends Component {
             })
         }
     }
-    submitForm(e){
+    submitForm(e) {
         e.preventDefault();
         this.props.addBookMutation({
             variables: {
                 name: this.state.name,
                 genre: this.state.genre,
                 authorid: this.state.authorid
-            }
+            },
+            refetchQueries: [{ query: getBooksQuery }]
         });
     }
     render() {
@@ -62,6 +63,6 @@ class AddBook extends Component {
 }
 
 export default compose(
-    graphql(getAuthorsQuery, {name: "getAuthorsQuery"}),
-    graphql(addBookMutation, {name: "addBookMutation" })
-) (AddBook);
+    graphql(getAuthorsQuery, { name: "getAuthorsQuery" }),
+    graphql(addBookMutation, { name: "addBookMutation" })
+)(AddBook);
