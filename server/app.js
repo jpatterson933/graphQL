@@ -5,11 +5,16 @@ const { graphqlHTTP } = require('express-graphql');
 
 const schema = require('./schema/schema');
 
+const cors = require('cors');
+
 //here we define our express function as app
 const app = express();
 
 //this connects us to the mongoose database
 const mongoose = require('mongoose');
+
+// allow cross-origin request
+app.use(cors());
 
 mongoose.connect('mongodb+srv://jeff:test123@practicecluster.feyva.mongodb.net/myFirstDatabase?retryWrites=true&w=majority');
 //this is an event listener
