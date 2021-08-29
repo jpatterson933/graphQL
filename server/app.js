@@ -8,6 +8,16 @@ const schema = require('./schema/schema');
 //here we define our express function as app
 const app = express();
 
+//this connects us to the mongoose database
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb+srv://jeff:test123@practicecluster.feyva.mongodb.net/myFirstDatabase?retryWrites=true&w=majority');
+//this is an event listener
+//once this event is open, we want a callback function to fire which will be the console.log to tell us when we are connected to the database
+mongoose.connection.once('open', () => {
+    console.log('connected to database');
+})
+
 //this is a middleware function
 app.use('/graphql', graphqlHTTP({
     schema,
