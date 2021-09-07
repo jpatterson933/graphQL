@@ -6,7 +6,7 @@ const _ = require('lodash');
 const Book = require('../models/book');
 const Author = require('../models/author');
 
-// here we are destructering schema typs from graphql itself
+// here we are destructering schema typs from graphql
 const {
     GraphQLObjectType,
     GraphQLString,
@@ -17,7 +17,7 @@ const {
     GraphQLNonNull
 } = graphql;
 
-//this is our graphql schema for books
+// graphql schema for books
 const BookType = new GraphQLObjectType({
     name: 'Book',
     fields: () => ({
@@ -36,7 +36,7 @@ const BookType = new GraphQLObjectType({
     })
 });
 
-//graphql schema for authors
+// graphql schema for authors
 const AuthorType = new GraphQLObjectType({
     name: 'Author',
     fields: () => ({
