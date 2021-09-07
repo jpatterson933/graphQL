@@ -5,6 +5,7 @@ const { graphqlHTTP } = require('express-graphql');
 
 const schema = require('./schema/schema');
 
+// package that will allow us to allow cross origin requests
 const cors = require('cors');
 
 //here we define our express function as app
