@@ -24,7 +24,7 @@ mongoose.connection.once('open', () => {
     console.log('connected to database');
 })
 
-//this is a middleware function
+//this is a middleware function - this handles graphql requests
 app.use('/graphql', graphqlHTTP({
     schema,
     //this allows us to use graphiql to test out graphql
